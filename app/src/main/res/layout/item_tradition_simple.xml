@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image"
+        android:src="@color/teal_200"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+    <ImageView
+        android:src="@color/black"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="85dp"/>
+    <TextView
+        android:text="Singapore"
+        android:id="@+id/title"
+        android:layout_below="@+id/image"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Camera"
+        android:id="@+id/camera"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint="Leica M Typ 240"
+        android:layout_alignBaseline="@+id/camera"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/camera"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="settings"
+        android:id="@+id/layout_settings"
+        android:layout_below="@+id/camera"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint="4 16s ISO 200"
+        android:layout_alignBaseline="@+id/layout_settings"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/layout_settings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_below="@+id/layout_settings"
+        android:text="Singapore officially the Republic of Singapore, and often referred to as the Lion City, the Garden City, and the Red Dot, is a global city in Southeast Asia and the world/s only island city-state. It lies one degree(137km) north of the equator, at the southernmost tip of continental Asia and peninsular Malaysia, with Indonesia's Riau Islands to the south. Singapore's territory consists of the diamond-shaped main island and 62 islets."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="UPLOAD"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="120dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:text="DISCARD"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+
+</RelativeLayout>
