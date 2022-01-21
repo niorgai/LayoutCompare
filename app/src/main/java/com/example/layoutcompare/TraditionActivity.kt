@@ -66,6 +66,7 @@ class TraditionActivity : AppCompatActivity() {
 
 
 //        }
+        group.addView(addView())
 
         val handlerThread = HandlerThread("this")
         handlerThread.start()
@@ -91,11 +92,11 @@ class TraditionActivity : AppCompatActivity() {
         val start = System.nanoTime()
         val view = if (isConstraint) {
             LayoutInflater.from(this).inflate(R.layout.item_constraint, group, false)
-//        } else if (isCustom) {
-//            CustomView(this).apply {
-//                layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                    resources.displayMetrics.densityDpi * 54)
-//            }
+        } else if (isCustom) {
+            CustomView(this).apply {
+                layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT)
+            }
         } else if (isEmpty) {
             LayoutInflater.from(this).inflate(R.layout.item_tradition_simple, group, false)
         } else {
