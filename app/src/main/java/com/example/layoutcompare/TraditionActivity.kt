@@ -1,17 +1,11 @@
 package com.example.layoutcompare
 
-import android.app.Dialog
-import android.content.Context
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.Looper
 import android.util.Log
 import android.view.*
-import java.lang.Exception
-import java.util.concurrent.TimeUnit
 
 class TraditionActivity : AppCompatActivity() {
 
@@ -22,51 +16,55 @@ class TraditionActivity : AppCompatActivity() {
     var finalTime = 0L
     var callCount = -1
 
-    var isConstraint = false
-    var isCustom = false
-    var isEmpty = false
-
     var addTime = 0L
     var addCount = 0L
+
+    var state = 0
+
+    private fun checkstate() {
+        if (state == 0) {
+            Log.i("LogView", "average isConstraint: ")
+        } else if (state == 1) {
+            Log.i("LogView", "average isCustom: ")
+        } else if (state == 2) {
+            Log.i("LogView", "average isSimple: ")
+        } else {
+            Log.i("LogView", "average normal: ")
+        }
+        state ++
+        reset()
+        if (state <= 3) {
+            start()
+        }
+    }
+
+    private fun reset() {
+        count = 0
+        finalTime = 0L
+        callCount = 0
+        LogViewGroup.measureCall = 0L
+        LogViewGroup.measureTime = 0L
+        LogViewGroup.layoutCall = 0L
+        LogViewGroup.layoutTime = 0L
+        addTime = 0L
+        addCount = 0
+    }
+
+    // 我这边测试绘制了两帧, 第二帧其实不需要计算
+    var needCount = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tradition)
-        ViewGroup.LayoutParams.WRAP_CONTENT
-
-        isConstraint = intent.getBooleanExtra("constraint", false)
-        isCustom = intent.getBooleanExtra("custom", false)
-        isEmpty = intent.getBooleanExtra("empty", false)
-        if (isConstraint) {
-            Log.i("LogView", "isConstraint: ")
-        } else if (isCustom) {
-            Log.i("LogView", "isCustom: ")
-        } else if (isEmpty) {
-            Log.i("LogView", "isEmpty: ")
-        } else {
-            Log.i("LogView", "normal: ")
-        }
 
         group = findViewById(R.id.view_group)
 
         findViewById<View>(R.id.refresh).setOnClickListener {
-            count = 0
-            finalTime = 0L
-            callCount = 0
-            LogViewGroup.measureCall = 0L
-            LogViewGroup.measureTime = 0L
-            LogViewGroup.layoutCall = 0L
-            LogViewGroup.layoutTime = 0L
-            addTime = 0L
-            addCount = 0
+            reset()
             start()
         }
 
-//        for (i in 0 until 20) {
-
-
-//        }
-        group.addView(addView())
+        group.addView(getView(), 0)
 
         val handlerThread = HandlerThread("this")
         handlerThread.start()
@@ -77,33 +75,35 @@ class TraditionActivity : AppCompatActivity() {
                 frameMetrics: FrameMetrics?,
                 dropCountSinceLastInvocation: Int
             ) {
-                val frameCopy = FrameMetrics(frameMetrics)
-                val duration = frameCopy.getMetric(FrameMetrics.LAYOUT_MEASURE_DURATION)
-                Log.i("LogView", "onFrameMetricsAvailable: " + duration)
-                if (callCount >= 0) {
+                val duration = frameMetrics?.getMetric(FrameMetrics.LAYOUT_MEASURE_DURATION) ?: 0
+                Log.i("LogView", "onFrameMetricsAvailable: " + duration + " is " + (needCount))
+                if (needCount) {
                     finalTime += duration
                     callCount ++
+                    needCount = false
                 }
             }
         }, Handler(handlerThread.looper))
     }
 
-    fun addView(): View {
+    private fun getView(): View {
         val start = System.nanoTime()
-        val view = if (isConstraint) {
+        val view = if (state == 0) {
             LayoutInflater.from(this).inflate(R.layout.item_constraint, group, false)
-        } else if (isCustom) {
+        } else if (state == 1) {
             CustomView(this).apply {
                 layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT)
             }
-        } else if (isEmpty) {
+        } else if (state == 2) {
             LayoutInflater.from(this).inflate(R.layout.item_tradition_simple, group, false)
         } else {
             LayoutInflater.from(this).inflate(R.layout.item_tradition, group, false)
         }
         addTime += (System.nanoTime() - start)
         addCount ++
+        // 清除缓存
+        resources.flushLayoutCache()
         return view
     }
 
@@ -113,8 +113,12 @@ class TraditionActivity : AppCompatActivity() {
 //        } else {
 //            measureWithExactly()
 //        }
+        val view = getView()
         group.removeAllViewsInLayout()
-        group.addView(addView())
+        group.addView(view)
+
+        needCount = true
+
         count++
         if (count < 100) {
             group.postDelayed( { start()}, 100)
@@ -125,6 +129,7 @@ class TraditionActivity : AppCompatActivity() {
             Log.i("LogView", "layoutTime: " + LogViewGroup.layoutTime + " layoutCall: " + LogViewGroup.layoutCall + " average: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall))
             val allTime = (addTime / addCount + LogViewGroup.measureTime / LogViewGroup.measureCall + LogViewGroup.layoutTime / LogViewGroup.layoutCall)
             Log.i("LogView", "allTime: " + allTime + " average: " + allTime / 3)
+            group.postDelayed( { checkstate() }, 1000)
         }
     }
 //

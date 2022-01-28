@@ -2,14 +2,14 @@ package com.example.layoutcompare;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
 /**
  * Created by jianqiu on 2022/1/14.
  */
-public class LogViewGroup extends LinearLayout {
+public class LogViewGroup extends FrameLayout {
 
     public static long measureTime = 0L;
     public static long measureCall = 0L;
@@ -31,7 +31,7 @@ public class LogViewGroup extends LinearLayout {
     }
 
     {
-        setOrientation(VERTICAL);
+//        setOrientation(VERTICAL);
     }
 
     @Override
