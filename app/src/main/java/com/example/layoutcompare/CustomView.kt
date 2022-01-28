@@ -188,15 +188,25 @@ class CustomView(context: Context) :ViewGroup(context) {
     fun View.autoLayout(x: Int = 0, y: Int = 0,
                         fromRight: Boolean = false, fromBottom: Boolean = false) {
         val layoutParams = this.layoutParams as CustomLayoutParams
-        val left = if (!fromRight) x + layoutParams.marginStart else
-            this@CustomView.measuredWidth - this.measuredWidth - x - layoutParams.marginEnd
-        val top = if (!fromBottom) y + layoutParams.topMargin else
-            this@CustomView.measuredHeight - this.measuredHeight- y - layoutParams.bottomMargin
-        val right = if (!fromRight) x + this.measuredWidth + layoutParams.marginStart else
-            this@CustomView.measuredWidth - x - layoutParams.marginEnd
-        val bottom = if (!fromBottom) y + this.measuredHeight + layoutParams.topMargin else
-            this@CustomView.measuredHeight - y - layoutParams.bottomMargin
-        this.layout(left, top, right, bottom)
+        if (!fromRight) {
+            val left = x + layoutParams.marginStart
+            if (!fromBottom) {
+                val top = y + layoutParams.topMargin
+                this.layout(left, top, left + this.measuredWidth, top + this.measuredHeight)
+            } else {
+                val bottom = this@CustomView.measuredHeight - y - layoutParams.bottomMargin
+                this.layout(left, bottom - this.measuredHeight, left + this.measuredWidth, bottom)
+            }
+        } else {
+            val right = this@CustomView.measuredWidth - x - layoutParams.marginEnd
+            if (!fromBottom) {
+                val top = y + layoutParams.topMargin
+                this.layout(right - this.measuredWidth, top, right, top + this.measuredHeight)
+            } else {
+                val bottom = this@CustomView.measuredHeight - y - layoutParams.bottomMargin
+                this.layout(right - this.measuredWidth, bottom - this.measuredHeight, right, bottom)
+            }
+        }
     }
 
 }

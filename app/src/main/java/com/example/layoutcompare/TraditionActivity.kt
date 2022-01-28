@@ -1,11 +1,14 @@
 package com.example.layoutcompare
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import android.view.*
+import java.lang.StringBuilder
 
 class TraditionActivity : AppCompatActivity() {
 
@@ -21,20 +24,31 @@ class TraditionActivity : AppCompatActivity() {
 
     var state = 0
 
+    val stringBuilder = StringBuilder()
+
     private fun checkstate() {
         if (state == 0) {
             Log.i("LogView", "average isConstraint: ")
+            stringBuilder.append("mode constraint end\n\n")
         } else if (state == 1) {
-            Log.i("LogView", "average isCustom: ")
+            Log.i("LogView", "average normal: ")
+            stringBuilder.append("mode normal end\n\n")
         } else if (state == 2) {
             Log.i("LogView", "average isSimple: ")
+            stringBuilder.append("mode simple end\n\n")
         } else {
-            Log.i("LogView", "average normal: ")
+            Log.i("LogView", "average isCustom: ")
+            stringBuilder.append("mode custom end\n\n")
         }
         state ++
         reset()
         if (state <= 3) {
             start()
+        } else {
+            val resultIntent = Intent()
+            resultIntent.putExtra("result", stringBuilder.toString())
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
         }
     }
 
@@ -91,14 +105,14 @@ class TraditionActivity : AppCompatActivity() {
         val view = if (state == 0) {
             LayoutInflater.from(this).inflate(R.layout.item_constraint, group, false)
         } else if (state == 1) {
+            LayoutInflater.from(this).inflate(R.layout.item_tradition, group, false)
+        } else if (state == 2) {
+            LayoutInflater.from(this).inflate(R.layout.item_tradition_simple, group, false)
+        } else {
             CustomView(this).apply {
                 layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT)
             }
-        } else if (state == 2) {
-            LayoutInflater.from(this).inflate(R.layout.item_tradition_simple, group, false)
-        } else {
-            LayoutInflater.from(this).inflate(R.layout.item_tradition, group, false)
         }
         addTime += (System.nanoTime() - start)
         addCount ++
@@ -123,12 +137,27 @@ class TraditionActivity : AppCompatActivity() {
         if (count < 100) {
             group.postDelayed( { start()}, 100)
         } else {
-            Log.i("LogView", "totalTime: " + finalTime + " totalCall: " + callCount + " average: " + (finalTime / callCount))
-            Log.i("LogView", "addTime: " + addTime + " addCount: " + addCount + " average: " + (addTime / addCount))
-            Log.i("LogView", "measureTime: " + LogViewGroup.measureTime + " measureCall: " + LogViewGroup.measureCall + " average: " + (LogViewGroup.measureTime / LogViewGroup.measureCall))
-            Log.i("LogView", "layoutTime: " + LogViewGroup.layoutTime + " layoutCall: " + LogViewGroup.layoutCall + " average: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall))
+            val frameLog = "frameTime: " + finalTime + " frameCount: " + callCount + " average: " + (finalTime / callCount)
+            Log.i("LogView", frameLog)
+            stringBuilder.append("frameTime: " + (finalTime / callCount)).append("\n")
+
+            val createLog = "createTime: " + addTime + " createCount: " + addCount + " average: " + (addTime / addCount)
+            Log.i("LogView", createLog)
+            stringBuilder.append("createTime: " + (addTime / addCount)).append("\n")
+
+            val measureLog = "measureTime: " + LogViewGroup.measureTime + " measureCount: " + LogViewGroup.measureCall + " average: " + (LogViewGroup.measureTime / LogViewGroup.measureCall)
+            Log.i("LogView", measureLog)
+            stringBuilder.append("measureTime: " + (LogViewGroup.measureTime / LogViewGroup.measureCall)).append("\n")
+
+            val layoutLog = "layoutTime: " + LogViewGroup.layoutTime + " layoutCount: " + LogViewGroup.layoutCall + " average: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall)
+            Log.i("LogView", layoutLog)
+            stringBuilder.append( "layoutTime: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall)).append("\n")
+
             val allTime = (addTime / addCount + LogViewGroup.measureTime / LogViewGroup.measureCall + LogViewGroup.layoutTime / LogViewGroup.layoutCall)
-            Log.i("LogView", "allTime: " + allTime + " average: " + allTime / 3)
+            val fullFlowLog = "full_flow: " + allTime + " average: " + allTime / 3
+            Log.i("LogView", fullFlowLog)
+            stringBuilder.append("full_flow: $allTime").append("\n")
+
             group.postDelayed( { checkstate() }, 1000)
         }
     }
