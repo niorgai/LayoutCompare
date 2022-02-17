@@ -30,10 +30,6 @@ public class LogViewGroup extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    {
-//        setOrientation(VERTICAL);
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         long start = System.nanoTime();

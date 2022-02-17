@@ -6,12 +6,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TraditionActivity">
+    tools:context=".TestActivity">
 
     <TextView
         android:id="@+id/refresh"
         android:gravity="center"
-        android:text="刷新"
+        android:text="开始测试"
         android:layout_width="match_parent"
         android:layout_height="100dp"/>
 

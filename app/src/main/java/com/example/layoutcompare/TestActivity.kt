@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.*
 import java.lang.StringBuilder
 
-class TraditionActivity : AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
 
     var count = 0
 
@@ -28,21 +28,27 @@ class TraditionActivity : AppCompatActivity() {
 
     private fun checkstate() {
         if (state == 0) {
+            Log.i("LogView", "average isEmpty: ")
+            stringBuilder.append("mode empty end\n\n")
+        } else if (state == 1) {
             Log.i("LogView", "average isConstraint: ")
             stringBuilder.append("mode constraint end\n\n")
-        } else if (state == 1) {
-            Log.i("LogView", "average normal: ")
-            stringBuilder.append("mode normal end\n\n")
         } else if (state == 2) {
+            Log.i("LogView", "average isNormal: ")
+            stringBuilder.append("mode normal end\n\n")
+        } else if (state == 3) {
             Log.i("LogView", "average isSimple: ")
             stringBuilder.append("mode simple end\n\n")
-        } else {
+        } else if (state == 4) {
             Log.i("LogView", "average isCustom: ")
             stringBuilder.append("mode custom end\n\n")
+        } else {
+            Log.i("LogView", "average isTotalCustom: ")
+            stringBuilder.append("mode total custom end\n\n")
         }
         state ++
         reset()
-        if (state <= 3) {
+        if (state <= 5) {
             start()
         } else {
             val resultIntent = Intent()
@@ -64,7 +70,7 @@ class TraditionActivity : AppCompatActivity() {
         addCount = 0
     }
 
-    // 我这边测试绘制了两帧, 第二帧其实不需要计算
+    // 只计算需要重绘的那一帧
     var needCount = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,8 +84,6 @@ class TraditionActivity : AppCompatActivity() {
             start()
         }
 
-        group.addView(getView(), 0)
-
         val handlerThread = HandlerThread("this")
         handlerThread.start()
 
@@ -90,7 +94,6 @@ class TraditionActivity : AppCompatActivity() {
                 dropCountSinceLastInvocation: Int
             ) {
                 val duration = frameMetrics?.getMetric(FrameMetrics.LAYOUT_MEASURE_DURATION) ?: 0
-                Log.i("LogView", "onFrameMetricsAvailable: " + duration + " is " + (needCount))
                 if (needCount) {
                     finalTime += duration
                     callCount ++
@@ -101,32 +104,37 @@ class TraditionActivity : AppCompatActivity() {
     }
 
     private fun getView(): View {
+        // 清除缓存
+        LayoutInflater.from(this).context.resources.flushLayoutCache()
         val start = System.nanoTime()
         val view = if (state == 0) {
-            LayoutInflater.from(this).inflate(R.layout.item_constraint, group, false)
+            View(this).apply {
+                layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT)
+            }
         } else if (state == 1) {
-            LayoutInflater.from(this).inflate(R.layout.item_tradition, group, false)
+            LayoutInflater.from(this).inflate(R.layout.item_constraint, group, false)
         } else if (state == 2) {
+            LayoutInflater.from(this).inflate(R.layout.item_tradition, group, false)
+        } else if (state == 3) {
             LayoutInflater.from(this).inflate(R.layout.item_tradition_simple, group, false)
-        } else {
+        } else if (state == 4) {
             CustomView(this).apply {
+                layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT)
+            }
+        } else {
+            TotalCustomView(this).apply {
                 layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT)
             }
         }
         addTime += (System.nanoTime() - start)
         addCount ++
-        // 清除缓存
-        resources.flushLayoutCache()
         return view
     }
 
     private fun start() {
-//        if (count % 2 == 0) {
-//            measureWithWrapContent()
-//        } else {
-//            measureWithExactly()
-//        }
         val view = getView()
         group.removeAllViewsInLayout()
         group.addView(view)
@@ -137,44 +145,28 @@ class TraditionActivity : AppCompatActivity() {
         if (count < 100) {
             group.postDelayed( { start()}, 100)
         } else {
-            val frameLog = "frameTime: " + finalTime + " frameCount: " + callCount + " average: " + (finalTime / callCount)
+            val frameLog = "frameTime: " + finalTime.toFormat() + " frameCount: " + callCount + " average: " + (finalTime / callCount).toFormat()
             Log.i("LogView", frameLog)
-            stringBuilder.append("frameTime: " + (finalTime / callCount)).append("\n")
+            stringBuilder.append("frameTime: " + (finalTime / callCount).toFormat()).append("\n")
 
-            val createLog = "createTime: " + addTime + " createCount: " + addCount + " average: " + (addTime / addCount)
+            val createLog = "createTime: " + addTime.toFormat() + " createCount: " + addCount + " average: " + (addTime / addCount).toFormat()
             Log.i("LogView", createLog)
-            stringBuilder.append("createTime: " + (addTime / addCount)).append("\n")
+            stringBuilder.append("createTime: " + (addTime / addCount).toFormat()).append("\n")
 
-            val measureLog = "measureTime: " + LogViewGroup.measureTime + " measureCount: " + LogViewGroup.measureCall + " average: " + (LogViewGroup.measureTime / LogViewGroup.measureCall)
+            val measureLog = "measureTime: " + LogViewGroup.measureTime.toFormat() + " measureCount: " + LogViewGroup.measureCall + " average: " + (LogViewGroup.measureTime / LogViewGroup.measureCall).toFormat()
             Log.i("LogView", measureLog)
-            stringBuilder.append("measureTime: " + (LogViewGroup.measureTime / LogViewGroup.measureCall)).append("\n")
+            stringBuilder.append("measureTime: " + (LogViewGroup.measureTime / LogViewGroup.measureCall).toFormat()).append("\n")
 
-            val layoutLog = "layoutTime: " + LogViewGroup.layoutTime + " layoutCount: " + LogViewGroup.layoutCall + " average: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall)
+            val layoutLog = "layoutTime: " + LogViewGroup.layoutTime.toFormat() + " layoutCount: " + LogViewGroup.layoutCall + " average: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall).toFormat()
             Log.i("LogView", layoutLog)
-            stringBuilder.append( "layoutTime: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall)).append("\n")
+            stringBuilder.append( "layoutTime: " + (LogViewGroup.layoutTime / LogViewGroup.layoutCall).toFormat()).append("\n")
 
-            val allTime = (addTime / addCount + LogViewGroup.measureTime / LogViewGroup.measureCall + LogViewGroup.layoutTime / LogViewGroup.layoutCall)
-            val fullFlowLog = "full_flow: " + allTime + " average: " + allTime / 3
+            val allTime = (addTime / addCount + LogViewGroup.measureTime / LogViewGroup.measureCall + LogViewGroup.layoutTime / LogViewGroup.layoutCall).toFormat()
+            val fullFlowLog = "full_flow: " + allTime + " average: "
             Log.i("LogView", fullFlowLog)
             stringBuilder.append("full_flow: $allTime").append("\n")
 
             group.postDelayed( { checkstate() }, 1000)
         }
     }
-//
-//    fun measureWithWrapContent() {
-//        val view = group
-//        val width = View.MeasureSpec.makeMeasureSpec(resources.displayMetrics.widthPixels - 1, View.MeasureSpec.EXACTLY)
-//        val height = View.MeasureSpec.makeMeasureSpec(resources.displayMetrics.heightPixels - 1, View.MeasureSpec.EXACTLY)
-//        view.measure(width, height)
-//        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
-//    }
-//
-//    fun measureWithExactly() {
-//        val view = group
-//        val width = View.MeasureSpec.makeMeasureSpec(resources.displayMetrics.widthPixels, View.MeasureSpec.EXACTLY)
-//        val height = View.MeasureSpec.makeMeasureSpec(resources.displayMetrics.heightPixels, View.MeasureSpec.EXACTLY)
-//        view.measure(width, height)
-//        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
-//    }
 }

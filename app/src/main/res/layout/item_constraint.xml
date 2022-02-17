@@ -1,101 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
     <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/image"
-        android:src="@color/teal_200"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"/>
+        android:src="@drawable/singapore"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/header"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/dummy"
+        app:layout_constraintLeft_toLeftOf="@+id/container"
+        app:layout_constraintTop_toTopOf="@+id/container"
+        app:layout_constraintRight_toRightOf="@+id/container"
+        app:layout_constraintBottom_toBottomOf="@+id/favorite"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="30dp"
-        android:src="@color/black"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="85dp"/>
+        android:src="@drawable/ic_star"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:id="@+id/favorite"
+        android:background="@drawable/info_background"
+        android:padding="5dp"
+        android:contentDescription="@string/dummy"
+        app:layout_constraintTop_toTopOf="@+id/container"
+        app:layout_constraintRight_toRightOf="@+id/container"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/container"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintVertical_bias="0.19" />
 
     <TextView
-        android:text="Singapore"
+        android:text="@string/singapore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="@+id/container"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:layout_marginTop="16dp" />
 
-    <TextView
-        android:id="@+id/camera"
-        android:text="Camera"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="@string/camera_value"
+        android:ems="10"
+        android:id="@+id/cameraType"
+        app:layout_constraintLeft_toLeftOf="@+id/settings"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        app:layout_constraintStart_toEndOf="@+id/camera"
-        app:layout_constraintBaseline_toBaselineOf="@+id/camera"
-        android:hint="Leica M Typ 240"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@+id/settings" />
 
     <TextView
+        android:text="@string/camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraLabel"
+        android:labelFor="@+id/cameraType"
+        app:layout_constraintLeft_toLeftOf="@+id/container"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/cameraType" />
+
+    <TextView
+        android:text="@string/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsLabel"
+        android:labelFor="@+id/settings"
+        app:layout_constraintLeft_toLeftOf="@+id/container"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/settings" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="@string/camera_settings"
+        android:ems="10"
         android:id="@+id/settings"
-        android:text="Settings"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/camera"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_gravity="center_vertical"
+        app:layout_constraintLeft_toRightOf="@+id/settingsLabel"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/cameraType"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@+id/description" />
+
+    <Button
+        android:text="@string/upload"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/upload"
+        app:layout_constraintRight_toRightOf="@+id/container"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/container"
+        android:layout_marginBottom="16dp" />
 
-    <EditText
-        app:layout_constraintStart_toEndOf="@+id/settings"
-        app:layout_constraintBaseline_toBaselineOf="@+id/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="f/4 16s ISO 200"
-        android:layout_marginEnd="10dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
-
+    <Button
+        android:text="@string/discard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/discard"
+        android:elevation="0dp"
+        app:layout_constraintRight_toLeftOf="@+id/upload"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/upload" />
 
     <TextView
+        android:text="@string/singapore_description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/description"
+        android:fadingEdge="vertical"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@+id/container"
+        android:layout_marginStart="16dp"
         app:layout_constraintTop_toBottomOf="@+id/settings"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="Singapore officially the Republic of Singapore, and often referred to as the Lion City, the Garden City, and the Red Dot, is a global city in Southeast Asia and the world/s only island city-state. It lies one degree(137km) north of the equator, at the southernmost tip of continental Asia and peninsular Malaysia, with Indonesia's Riau Islands to the south. Singapore's territory consists of the diamond-shaped main island and 62 islets."
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
-    <Button
-        app:layout_constraintBaseline_toBaselineOf="@+id/discard"
-        app:layout_constraintEnd_toStartOf="@+id/discard"
-        android:text="UPLOAD"
-        android:layout_width="100dp"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/discard"
-        android:text="DISCARD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_width="100dp"
-        android:layout_height="50dp"/>
-
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@+id/container"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/discard"
+        android:layout_marginBottom="8dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LayoutCompare">
         <activity android:name=".ConstraintActivity"></activity>
-        <activity android:name=".TraditionActivity" />
+        <activity android:name=".TestActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

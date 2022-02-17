@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<View>(R.id.jump).setOnClickListener {
-            startActivityForResult(Intent(this, TraditionActivity::class.java), 1)
+            startActivityForResult(Intent(this, TestActivity::class.java), 1)
         }
 
     }

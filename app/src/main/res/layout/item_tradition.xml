@@ -1,128 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/image"
-        android:src="@color/teal_200"
+        android:src="@drawable/singapore"
         android:layout_width="match_parent"
-        android:layout_height="100dp"/>
+        android:layout_height="150dp"
+        android:id="@+id/imageview_singapore"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/dummy" />
 
     <ImageView
-        android:src="@color/black"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="85dp"/>
+        android:src="@drawable/ic_star"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:id="@+id/favorite"
+        android:background="@drawable/info_background"
+        android:padding="5dp"
+        android:contentDescription="@string/dummy"
+        android:layout_below="@id/imageview_singapore"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-18dp"
+        android:layout_marginEnd="18dp" />
+
     <RelativeLayout
-        android:layout_below="@+id/image"
-        android:layout_above="@id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageview_singapore" >
 
         <TextView
-            android:text="Singapore"
-            android:id="@+id/title"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
+            android:text="@string/singapore"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" />
 
         <LinearLayout
-            android:id="@+id/layout_camera"
-            android:orientation="horizontal"
-            android:layout_below="@+id/title"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:id="@+id/camera_area"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/title" >
 
             <TextView
-                android:text="Camera"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical"
+                android:text="@string/camera"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/cameraLabel"
+                android:labelFor="@+id/cameraType"
+                android:layout_marginStart="16dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:hint="Leica M Typ 240"
+                    android:id="@+id/cameraType"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="@string/camera_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
             </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_settings"
-            android:orientation="horizontal"
-            android:layout_below="@+id/layout_camera"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:id="@+id/setings_area"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_area"
+            android:orientation="horizontal">
 
             <TextView
-                android:text="Settings"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical"
+                android:text="@string/settings"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/settingsLabel"
+                android:labelFor="@+id/settings"
+                android:layout_marginStart="16dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:hint="f/4 16s ISO 200"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:inputType="textPersonName"
+                    android:text="@string/camera_settings"
+                    android:ems="10"
+                    android:id="@+id/settings"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp" />
             </RelativeLayout>
-
         </LinearLayout>
+
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_below="@+id/layout_settings"
-            android:text="Singapore officially the Republic of Singapore, and often referred to as the Lion City, the Garden City, and the Red Dot, is a global city in Southeast Asia and the world/s only island city-state. It lies one degree(137km) north of the equator, at the southernmost tip of continental Asia and peninsular Malaysia, with Indonesia's Riau Islands to the south. Singapore's territory consists of the diamond-shaped main island and 62 islets."
+            android:text="@string/singapore_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:id="@+id/description"
+            android:fadingEdge="vertical"
+            android:ellipsize="end"
+            android:textSize="15sp"
+            android:layout_below="@id/setings_area"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp" />
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/bottom_layout"
-        android:orientation="horizontal"
-        android:gravity="right"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true">
 
         <Button
-            android:text="UPLOAD"
-            android:layout_width="100dp"
-            android:layout_height="50dp"/>
+            android:text="@string/upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/upload"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp" />
 
         <Button
-            android:text="DISCARD"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_width="100dp"
-            android:layout_height="50dp"/>
-
+            android:text="@string/discard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discard"
+            android:elevation="0dp"
+            android:layout_marginEnd="8dp" />
     </LinearLayout>
-
 </RelativeLayout>
