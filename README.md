@@ -1,4 +1,8 @@
-Test Code of [https://github.com/android/performance-samples/tree/main/ConstraintLayoutPerformance](https://github.com/android/performance-samples/tree/main/ConstraintLayoutPerformance)
+Compare the performance with different layout with same ui.
+
+[Official Article](https://android-developers.googleblog.com/2017/08/understanding-performance-benefits-of.html)
+
+[Official Demo](https://github.com/android/performance-samples/tree/main/ConstraintLayoutPerformance)
 
 #### Include five type of view
 
@@ -29,3 +33,5 @@ Total Custom | Same with Custom, skip some measure step
 
 1. Full_flow : create + measure + layout
 2. Frame: `FrameMetrics.getMetric(FrameMetrics.LAYOUT_MEASURE_DURATION) ` , measure + layout
+
+![](https://4.bp.blogspot.com/-0Q-BVkD8e_A/WZ3itMksXOI/AAAAAAAAEgw/dLRNKQj5FhE2NpSq6jDx-MlBuCEqUOwqQCLcBGAs/s1600/image5.png)
